@@ -11,10 +11,10 @@ const burger = (props) => {
         .reduce((array, element) => {
             return array.concat(element)
         }, [])
-        if (transformedIngredients.length === 0) {
-            transformedIngredients = <p>Make your ideal burger!</p>
-        }
-    console.log(transformedIngredients, 'transform')
+    if (transformedIngredients.length === 0) {
+        transformedIngredients = <p>Make your ideal burger!</p>
+    }
+
     return (
         <div className='Burger'>
             <BurgerIngredient type='bread-top' />
