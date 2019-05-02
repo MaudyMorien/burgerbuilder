@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Burger from '../../components/Burger/Burger'
-import BuildControls from '../../components/Burger/BuildControls/BuildControls'
+import BuildControls from '../../components/Burger/BuildControls'
 import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from '../../components/OrderSummary/OrderSummary'
 const INGREDIENT_PRICES = {
