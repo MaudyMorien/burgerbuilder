@@ -1,6 +1,6 @@
 import React from 'react'
 import './Layout.css'
-import Toolbar from '../Navigation/Toolbar/Toolbar'
+import Toolbar from '../Navigation/Toolbar'
 
 const layout = (props) => (
     <>
