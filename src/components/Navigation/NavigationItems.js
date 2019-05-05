@@ -1,12 +1,12 @@
 import React from 'react'
-import './NavigationItemStyle.css'
+import classes from './NavigationItemStyle.module.css'
 import NavigationItem from './NavigationItem'
 
 const navigationItems = () => (
 
-    <ul className='NavigationItems'>
-    <NavigationItem link='/' active>Burger Builder</NavigationItem>
-    <NavigationItem link='/' active>Checkout</NavigationItem>
+    <ul className={classes.NavigationItems}>
+        <NavigationItem link='/' active>Burger Builder</NavigationItem>
+        <NavigationItem link='/' active>Checkout</NavigationItem>
 
     </ul>
 )

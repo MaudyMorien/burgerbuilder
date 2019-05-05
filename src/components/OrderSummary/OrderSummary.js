@@ -1,28 +1,35 @@
-import React from 'react'
-import Button from '../UI/Button'
- 
-const orderSummary = (props) => {
-    const ingredientSummary = Object.keys(props.ingredients)
-        .map(key => {
-            return <li key={key}>
-                <span style={{ textTransform: 'capitalize' }}>
-                    {key}
-                </span>: {props.ingredients[key]}
-            </li>
-        })
-    return (
-        <>
-            <h3>Your Order</h3>
-            <p>A delicious burger with:</p>
-            <ul>
-                {ingredientSummary}
-            </ul>
-            <p><strong>Total Price: €{props.price.toFixed(2)}</strong></p>
-            <p>Continue to Checkout?</p>
-            <Button clicked={props.purchaseCancelled}>CANCEL</Button>
-            <Button clicked={props.purchaseContinued}>CONTINUE</Button>
-        </>
-    )
-}
+import React from "react";
+import Button from "../UI/Button";
+
+// Text transform is not needed anymore
+// The ingredient name is from the db, but a very very good find! :D
+const RenderIngredientSummary = (props) =>
+  props.cart.map((ingredient, index) => (
+    <li key={index}>
+      <span style={{ textTransform: "capitalize" }}>{}</span>:{" "}
+      {ingredient.name}
+    </li>
+  )
+)
+
+const orderSummary = props => (
+  <>
+    <h3>Your Order</h3>
+    <p>A delicious burger with:</p>
+    <ul>
+      <RenderIngredientSummary cart={props.cart} />
+    </ul>
+    <p>
+      <strong>Total Price: €{props.price}</strong>
+    </p>
+    <p>Continue to Checkout?</p>
+    <Button btnType="Danger" clicked={props.purchaseCancelled}>
+      CANCEL
+    </Button>
+    <Button btnType="Success" clicked={props.purchaseContinued}>
+      CONTINUE
+    </Button>
+  </>
+);
 
 export default orderSummary

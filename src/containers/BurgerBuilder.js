@@ -1,100 +1,100 @@
 import React, { Component } from 'react'
 import Burger from '../components/Burger/Burger'
-import BuildControls from '../components/Burger/BuildControls'
+import BuildControls from './BuildControls'
+
 import Modal from '../components/UI/Modal'
 import OrderSummary from '../components/OrderSummary/OrderSummary'
 
-const INGREDIENT_PRICES = {
-  salad: 0.5,
-  cheese: 0.4,
-  meat: 1.3,
-  bacon: 0.7
-}
+import ingredients from '../ingredients' // this is our database result
+import { unstyle } from 'ansi-colors';
 class BurgerBuilder extends Component {
-
   state = {
-    ingredients: {
-      salad: 0,
-      bacon: 0,
-      cheese: 0,
-      meat: 0
-    },
-    totalPrice: 4,
-    purchasable: false,
+    startPrice: 4,
+    ingredients,
+    cart: [],
     purchasing: false
   }
 
-  updatePurchaseState = () => {
-    const ingredients = {
-      ...this.state.ingredients
+  getTotal = () => 
+    (
+      this.state.cart.reduce((sum, ingredient) =>
+        sum + ingredient.price
+      , 0) + this.state.startPrice
+    ).toFixed(2)
+  
+
+  isPurchaseable = () =>
+    this.state.cart.length > 0
+
+
+  onCheckout = accepted => {
+    if(accepted){
+      return alert('accepted')
     }
-    const sum = Object.values(ingredients)
-      .reduce((sum, number) => sum + number, 0) > 0
-    this.setState({ purchasable: sum })
 
+    alert('declined')
   }
 
-  addIngredientHandler = (type) => {
-    this.setState((prevState) => {
-      return {
-        ingredients: {
-          ...prevState.ingredients,
-          [type]: prevState.ingredients[type] + 1
-        },
-        totalPrice: prevState.totalPrice + INGREDIENT_PRICES[type]
-      }
-    }, this.updatePurchaseState)
-  }
+  onIngredientChange = (id, amount) => {
+    let cart = [...this.state.cart] // firt copy the state!
 
-  removeIngredientHandler = (type) => {
-    this.setState((prevState) => {
-      if (prevState.ingredients[type] > 0) {
-        return {
-          ingredients: {
-            ...prevState.ingredients,
-            [type]: prevState.ingredients[type] - 1
-          },
-          totalPrice: prevState.totalPrice - INGREDIENT_PRICES[type]
+    if(amount > 0){
+      // Add item to cart
+      // A todo.. add multiple items   ...      ... ->    =)
+      // I am curious to your solution
+      cart.push(
+        this.state.ingredients.find(
+          ingredient => ingredient.id === id
+        )
+      )
+    }
+
+    if(amount < 0){
+      // Remove last item from cart matching the ingredient id
+      for(const key in cart.reverse()){ // reverse the shopping list and loop over it
+        if(cart[key].id === id){ // if matching id
+          delete cart[key] // delete value from array
+          if(++amount === 0){ // amount is negative, so we need to add BUT AFTER comparison. Flipping the ++ operator before or after position determins that
+            cart = cart.filter(item => item).reverse() // remove unused indexes from array, and reverse it again
+            break; // break the for loop (this is 1 reason why for loops are faster and more flexible)
+          }
         }
       }
-    }, this.updatePurchaseState);
+    }
+
+    this.setState({
+      ...this.state,
+      cart
+    })
   }
 
   purchaseHandler = () => {
     this.setState({ purchasing: true })
   }
 
-  purchaseCancelHandler = () => {
-    this.setState({ purchasing: false })
-  }
-
-  purchaseContinueHandler = () => {
-    alert('You continue!')
-  }
-
   render() {
-    const disabledInfo = {
-      ...this.state.ingredients
-    }
-    for (let key in disabledInfo) {
-      disabledInfo[key] = disabledInfo[key] <= 0
-    }
-    return (<>
-      <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
-        <OrderSummary ingredients={this.state.ingredients}
-          purchaseCancelled={this.purchaseCancelHandler}
-          purchaseContinued={this.purchaseContinueHandler} 
-          price={this.state.totalPrice}/>
-      </Modal>
-      <Burger ingredients={this.state.ingredients} />
-      <BuildControls
-        ingredientAdded={this.addIngredientHandler}
-        ingredientRemoved={this.removeIngredientHandler}
-        disabled={disabledInfo}
-        price={this.state.totalPrice}
-        purchasable={this.state.purchasable}
-        ordered={this.purchaseHandler} />
-    </>)
+    console.log(this.state)
+    return (
+      <>
+        <Modal show={this.state.purchasing} onCheckoutFn={this.onCheckout}>
+          <OrderSummary 
+            ingredients={this.ingredient}
+            onCheckoutFn={this.state.onCheckout}
+            price={this.getTotal()}
+            cart={this.state.cart}
+          />
+        </Modal>
+        {<Burger cart={this.state.cart} />}
+        <BuildControls
+          ingredients={this.state.ingredients}
+          onChangeFn={this.onIngredientChange}
+          price={this.getTotal()}
+          purchasable={this.isPurchaseable()}
+          checkout={this.onCheckout}
+          cart={this.state.cart}
+        />
+      </>
+    )
   }
 }
 
