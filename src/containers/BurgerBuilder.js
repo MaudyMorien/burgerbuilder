@@ -23,7 +23,7 @@ class BurgerBuilder extends Component {
 
 
   isPurchaseable = () =>
-    this.state.cart.length > 0
+    this.state.cart.length > 0 && this.state.cart.length <= 10
 
 
   onCheckout = accepted => {
@@ -46,13 +46,12 @@ class BurgerBuilder extends Component {
     }
 
     if (amount < 0) {
-      // Remove last item from cart matching the ingredient id
-      for (const key in cart.reverse()) { // reverse the shopping list and loop over it
-        if (cart[key].id === id) { // if matching id
-          delete cart[key] // delete value from array
-          if (++amount === 0) { // amount is negative, so we need to add BUT AFTER comparison. Flipping the ++ operator before or after position determins that
-            cart = cart.filter(item => item).reverse() // remove unused indexes from array, and reverse it again
-            break; // break the for loop (this is 1 reason why for loops are faster and more flexible)
+      for (const key in cart) {
+        if (cart[key].id === id) {
+          delete cart[key]
+          if (++amount === 0) { 
+            cart = cart.filter(item => item)
+            break
           }
         }
       }
