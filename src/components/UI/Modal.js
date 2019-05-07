@@ -4,7 +4,7 @@ import Backdrop from './Backdrop';
 
 const modal = (props) => (
     <>
-        <Backdrop show={props.show} clicked={props.modalClosed}/>
+        <Backdrop show={props.show} clicked={props.onCheckoutFn}/>
         <div className='Modal'
             style={{
                 transform: props.show ? 'translateY(0)' : 'translateY(-100vh)',
