@@ -3,7 +3,7 @@ import Button from "../UI/Button";
 
 // Text transform is not needed anymore
 // The ingredient name is from the db, but a very very good find! :D
-const RenderIngredientSummary = (props) =>
+const RenderIngredientSummary = props =>
   props.cart.map((ingredient, index) => (
     <li key={index}>
       <span style={{ textTransform: "capitalize" }}>{}</span>:{" "}
