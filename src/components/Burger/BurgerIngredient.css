@@ -111,3 +111,27 @@
     background: linear-gradient(#bf3813, #c45e38);
     margin: 2% auto;
 }
+
+.Pineapple {
+  width: 80%;
+  height: 8%;
+  margin: 2% auto;
+  background-image: linear-gradient(90deg, #ffec7d 25%, #f5f4d2 25%, #f5f4d2 50%, #ffec7d 50%, #ffec7d 75%, #f5f4d2 75%, #f5f4d2 100%);
+  background-size: 80px 80px;
+}
+
+.Tomato {
+  width: 80%;
+  height: 4%;
+  margin: 2% auto;
+  background-image: linear-gradient(90deg, red 48%,#ffffff 48% , #ffffff 52%, red 50%);
+
+}
+
+.Onion {
+  width: 80%;
+  height: 4%;
+  margin: 2% auto;
+  background-image: linear-gradient(90deg, #FEFCD7 48%,#ffffff 48% , #ffffff 52%, #FEFCD7 50%);
+
+}
